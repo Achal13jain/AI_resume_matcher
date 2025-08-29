@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+streamlit
+sentence-transformers
+transformers
+pandas
+python-docx
+PyPDF2
+pdfminer.six
+python-multipart
+aiofiles
+fuzzywuzzy
+requests
