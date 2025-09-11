@@ -5,7 +5,7 @@ import spacy
 
 nlp = spacy.load("en_core_web_sm")
 
-# a compact vocabulary to start — extend as you like
+# a compact vocabulary to start
 TECHNICAL = [
     "python","java","c++","c#","javascript","typescript","sql","nosql",
     "machine learning","deep learning","nlp","computer vision","pandas","numpy",

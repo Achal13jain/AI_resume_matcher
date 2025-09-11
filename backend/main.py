@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from backend.utils import get_text_from_file, clean_text
 from backend.nlp_utils import compute_similarity, get_missing_skills
 from backend.skills import extract_skills_categorized, rank_missing_skills
-
+from backend.llm_utils import extract_skills_with_llm
 app = FastAPI(title="AI Resume–JD Matcher")
 
 
@@ -71,3 +71,57 @@ async def match(resume_text: str = Form(...), jd_text: str = Form(...)):
         "resume_skill_count": len(resume_set),
         "jd_skill_count": len(jd_set),
     }
+
+@app.post("/llm_extract_and_match")
+def llm_extract_and_match(resume_text: str = Form(None), jd_text: str = Form(None)):
+    result = {}
+
+    # Helper to clean LLM output
+    def clean_llm_output(llm_dict):
+        if not llm_dict or "skills" not in llm_dict:
+            return []
+        # just get the list of skills
+        return [s.strip() for s in llm_dict["skills"] if s.strip()]
+
+    if resume_text:
+        raw_resume = extract_skills_with_llm(resume_text)  # returns dict
+        resume_skills = clean_llm_output(raw_resume)
+        result["resume_skills"] = resume_skills
+    else:
+        resume_skills = []
+
+    if jd_text:
+        raw_jd = extract_skills_with_llm(jd_text)
+        jd_skills = clean_llm_output(raw_jd)
+        result["jd_skills"] = jd_skills
+    else:
+        jd_skills = []
+
+    # run matching if both sides exist
+    if resume_skills and jd_skills:
+        resume_set = set(resume_skills)
+        jd_set = set(jd_skills)
+
+        matched = list(resume_set.intersection(jd_set))
+        missing = list(jd_set - resume_set)
+
+        result.update({
+            "matched_skills": matched,
+            "missing_skills": missing,
+            "overlap_count": len(matched),
+            "resume_skill_count": len(resume_set),
+            "jd_skill_count": len(jd_set),
+        })
+    else:
+        result.update({
+            "matched_skills": [],
+            "missing_skills": [],
+            "overlap_count": 0,
+            "resume_skill_count": len(resume_skills),
+            "jd_skill_count": len(jd_skills),
+        })
+
+    if not result:
+        return JSONResponse({"error": "No input provided"}, status_code=400)
+
+    return result
