@@ -24,11 +24,11 @@
 - [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
 - [Installation](#-installation)
-- [Configuration](#-configuration)
+- [Configuration](#%EF%B8%8F-configuration)
 - [Usage](#-usage)
 - [API Documentation](#-api-documentation)
 - [Project Structure](#-project-structure)
-- [Development](#-development)
+- [Development](#%E2%80%8D-development)
 - [Testing](#-testing)
 - [Deployment](#-deployment)
 - [Contributing](#-contributing)
@@ -88,13 +88,6 @@
 
 ![AI Resume Matcher Demo](images/AI-resume%20matcher%202.png)
 *Upload your resume and paste a job description to see instant analysis*
-
-![AI Resume Matcher Demo](images/AI-resume%20matcher%203.png)
-
-![AI Resume Matcher Demo](images/AI-resume%20matcher%204.png)
-
-![AI Resume Matcher Demo](images/AI-resume%20matcher%205.png)
-
 
 ### Sample Output
 
