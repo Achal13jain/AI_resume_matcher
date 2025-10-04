@@ -11,3 +11,7 @@ python-multipart
 aiofiles
 fuzzywuzzy
 requests
+spacy
+python-dotenv
+openai
+torch
